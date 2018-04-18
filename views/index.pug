@@ -1,0 +1,175 @@
+html
+  head
+    title= title
+    style
+      include ../styles.css
+    script(src = "/jquery/dist/jquery.min.js")
+    script(src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js")
+    link(href='https://fonts.googleapis.com/css?family=IBM+Plex+Sans+Condensed:300,700|Oswald:200,600', rel='stylesheet')
+
+  body
+    div(id='container')
+        div(id='nameDiv')
+            h1(id='nickBalderston') NICK BALDERSTON
+
+        div(id='projectTitleDiv' class='contentDiv')
+            h1(id='projectTitleText')= projectTitleText
+
+        div(id='skillsDiv' class='contentDiv')
+
+        div(class='divContainer')
+            div(id='heroDiv' class='contentDiv')
+
+
+            div(id='aboutDiv' class='contentDiv')
+                h2 ABOUT
+                p(id='aboutText')= aboutText
+
+        div(class='divContainer')
+            div(id='problemDiv' class='contentDiv')
+                h2 PROMPT
+                p(id='problemText')= problemText
+
+            div(id='solutionDiv' class='contentDiv')
+                h2 SOLUTION
+                p(id='solutionText')= solutionText
+
+        div(id='processDiv' class='contentDiv')
+            div(id='processImgDiv')
+            div(id='processTextDiv')
+                h2 PROCESS
+                p(id='processText')= processText
+                a(id='projectLinkText', target='_blank')= projectLinkText
+
+        div(id='previewDiv')
+            h2(id='previewTitle')
+            p(id='previewAbout')
+            div(id='previewSkillsDiv')
+
+        div(id='navDiv')
+
+
+    script.
+        navDiv = document.getElementById('navDiv');
+
+        window.onload = function(){
+            $.get('/dbLength', (dbData) =>{
+                var files = {'png': dbData.length};
+                for (var ext in files){
+                    for (var i = 0; i < files[ext]; i++){
+                        var src = "Images/hero/project" + (i+1) + "." + ext;
+                        var img = new Image(); 
+                        img.src = src;
+                        navDiv.appendChild(img);
+                        //img.setAttribute('imageIndex', 'hello');
+                        img.imageIndex = i;
+                        console.log(img.imageIndex);
+                        //img.addEventListener("click", getProjectContent(img.index));
+                        img.onmouseover = function(){
+                            chosenImageIndex = this.imageIndex;
+                            previewDiv.style.left = (66 / dbData.length) * chosenImageIndex;
+                            $.get('/projectDetails', {requestedIndex: this.imageIndex}, (data) =>{
+                                previewTitle.innerHTML = data.projectTitle;
+                                previewAbout.innerHTML = data.about;
+                                while (previewSkillsDiv.hasChildNodes()) {
+                                            previewSkillsDiv.removeChild(previewSkillsDiv.lastChild);
+                                        }
+                                        for(j = 0; j < data.skills.length; j++){
+                                            console.log("skill: "+j);
+                                            var skillWord = document.createElement('p');
+                                            skillWord.innerHTML = data.skills[j];
+                                            previewSkillsDiv.appendChild(skillWord);
+                                        }
+                                        
+                                //$('#previewDiv').animate({'opacity': 1}, 200)
+                                previewDiv.style.opacity = '1';
+                            })
+                        }
+
+                        img.onmouseout = function(){
+                            //$('#previewDiv').animate({'opacity': 0}, 200, function(){
+                                previewDiv.style.opacity = '0';
+                            //})
+                        }
+
+
+                        img.onclick = function(){
+                            console.log("img onclick");
+                            chosenImageIndex = this.imageIndex;
+                            previewDiv.style.opacity = '0';
+                            $.get('/projectDetails', {requestedIndex: this.imageIndex}, (data) =>{
+                                //console.log(data);
+                                //console.log(projectTitleText);
+                                var counter = 0;
+                                $('.contentDiv').animate({'opacity': 0}, 400, function(){
+                                    document.body.scrollTop;
+                                    console.log(counter);
+                                    projectTitleText.innerHTML = data.projectTitle;
+                                    if(counter === 0){
+                                        //var skillsArray = [];
+                                        //skillsArray = data.skills.toString().split(',');
+                                        //console.log("data.skills: "+data.skills[1]);
+                                        while (skillsDiv.hasChildNodes()) {
+                                            skillsDiv.removeChild(skillsDiv.lastChild);
+                                        }
+                                        for(j = 0; j < data.skills.length; j++){
+                                            console.log("skill: "+j);
+                                            var skillWord = document.createElement('p');
+                                            skillWord.innerHTML = data.skills[j];
+                                            skillsDiv.appendChild(skillWord);
+                                        }
+                                    
+                                        while (heroDiv.hasChildNodes()) {
+                                            heroDiv.removeChild(heroDiv.lastChild);
+                                        }
+                                        if(data.heroType === 'video'){
+                                            var heroIframe = document.createElement('iframe');
+                                            heroIframe.setAttribute("src", data.videoLink);
+                                            heroDiv.appendChild(heroIframe);
+                                            heroIframe.style.width = '100%';
+                                            heroIframe.style.height = '25vw';
+                                        }else{
+                                            var heroImage = new Image();
+                                            console.log(chosenImageIndex);
+                                            heroImage.src = "images/hero/project" + (chosenImageIndex+1) + ".png";
+                                            heroDiv.appendChild(heroImage);
+                                        }
+                                        aboutText.innerHTML = data.about;
+                                        problemText.innerHTML = data.problem;
+                                        solutionText.innerHTML = data.solution;
+                                        processText.innerHTML = data.process;
+                                        projectLinkText.innerHTML = data.projectLinkText;
+                                        projectLinkText.href = data.projectLink;
+                                        var files = {'png': data.projectImageCount};
+                                        for (var ext in files){
+                                            for(var k = 0; k < files[ext]; k++){
+                                                console.log("chosenImageIndex:" + chosenImageIndex);
+                                                var src = "Images/project" + (chosenImageIndex+1) + "/process" + (k+1) + "." + ext;
+                                                var img = new Image(); 
+                                                img.src = src;
+                                                processImgDiv.appendChild(img);
+                                            }
+                                        }
+                                    }
+                                    
+                                    $(this).animate({'opacity': 1}, 400);  
+                                    counter++;  
+                                });
+                                
+                            })
+                        }
+                    }
+                }
+                console.log(dbData);
+            })
+        }
+
+        var button1 = document.getElementById('button1');
+
+        //- button1.onclick = function(){
+        //-     $.get('/squares', (data) =>{
+        //-         data.forEach(updateSquares);
+        //-     })
+        //- }
+    
+    

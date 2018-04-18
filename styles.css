@@ -1,0 +1,157 @@
+body{
+    white-space: pre-wrap;
+    background-color: BLACK;
+    margin: 0;
+}
+
+#container{
+    background: transparent;
+    margin: 0;
+    width: 100vw;
+    padding-bottom: 6vw;
+}
+
+div{
+    background-color: rgba(255,255,255,0.8);
+    background: transparent;
+    padding: 0;
+    margin: 1vw;
+    width: 45vw;
+    float: left;
+    color: WHITE;
+}
+
+#projectTitleDiv{
+    background: transparent;
+    width: 98vw;
+    color: WHITE;
+    margin-bottom: 0;
+}
+
+#navDiv{
+    margin: 0;
+    width: 100vw;
+    height: 6vw;
+    position: fixed;
+    bottom: 0vh;
+    background-color: rgba(0,0,0,0.9);
+}
+
+#navDiv img{
+    height: 6vw;
+    width: 6vw;
+    object-fit: cover;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+h1{
+    margin: 0;
+    padding: 0;
+    font-weight: 200;
+    font-family: 'Oswald', sans-serif;
+}
+
+#nameDiv h1{
+    font-weight: 600;
+}
+
+h2{
+    margin: 0;
+    padding: 0;
+    font-weight: 600;
+    line-height: 90%;
+    font-family: 'Oswald', sans-serif;
+}
+
+.contentDiv img{
+    width: 100%;
+}
+
+p{
+    font-weight: 300;
+    font-family: 'IBM Plex Sans Condensed', sans-serif;
+}
+
+#skillsDiv{
+    margin-top: 0;
+    margin-bottom: 0;
+    width: 98vw;
+}
+
+#skillsDiv p{
+    background-color:WHITE;
+    color: BLACK;
+    float: left;
+    margin-right: 1vw;
+    padding-left: 0.25vw;
+    padding-right: 0.25vw;
+}
+
+#previewDiv{
+    position: fixed;
+    left: 0;
+    margin: 0;
+    padding: 1vw;
+    bottom: 6vw;
+    width: 33vw;
+    pointer-events: none;
+    opacity: 0;
+    background-color: rgba(255,255,255,0.95);
+    color: BLACK;
+    transition: all 0.5s ease;
+}
+
+#previewSkillsDiv{
+    width: 98%;
+    margin-left: 0;
+}
+
+#previewSkillsDiv p{
+    background-color:BLACK;
+    color: WHITE;
+    float: left;
+    margin-top: 0;
+    margin-bottom: 1vw;
+    margin-right: 2%;
+    padding-left: 0.25vw;
+    padding-right: 0.25vw;
+}
+
+iframe{
+    border: none;
+}
+
+#processDiv{
+    width: 98vw;
+}
+
+#processImgDiv{
+    width: 45vw;
+    margin-left: 0;
+}
+
+#processImgDiv img{
+    margin-bottom: 2vw;
+}
+
+#processTextDiv{
+    width: 45vw;
+    margin-top:0;
+    padding-top: 0;
+}
+
+.divContainer{
+    width: 98vw;
+    margin: 0;
+    margin-bottom: 2vw;
+}
+
+a{
+    font-size: 36pt;
+    font-weight: 600;
+    font-family: 'Oswald', sans-serif;
+    color: white;
+}
+
+
